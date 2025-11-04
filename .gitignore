@@ -1,0 +1,25 @@
+# Data files
+data/raw/*.csv
+data/raw/*.xlsx
+data/processed/*.parquet
+data/processed/*.csv
+data/processed/*.joblib
+data/processed/*.json
+
+# Models
+models/*.joblib
+models/*.pkl
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
