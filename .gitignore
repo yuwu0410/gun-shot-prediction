@@ -1,12 +1,11 @@
-# Data files
+# Data files - Raw data (large, do not push)
 data/raw/*.csv
 data/raw/*.xlsx
-data/processed/*.parquet
-data/processed/*.csv
-data/processed/*.joblib
-data/processed/*.json
 
-# Models
+# Processed data - Allow pushing (small files, useful for reproduction)
+# All processed files can be pushed (total ~1.2M)
+
+# Models - Do NOT push (too large, share via cloud storage)
 models/*.joblib
 models/*.pkl
 

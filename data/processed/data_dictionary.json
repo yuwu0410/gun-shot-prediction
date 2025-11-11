@@ -1,0 +1,23 @@
+{
+  "numeric_columns_train": [
+    "year",
+    "month",
+    "age",
+    "hispanic",
+    "police_involvement"
+  ],
+  "categorical_columns_train": [
+    "education",
+    "sex",
+    "race",
+    "place"
+  ],
+  "n_features_out": 26,
+  "target_column": "reason",
+  "target_classes": [
+    "homicide",
+    "suicide",
+    "accidental",
+    "undetermined"
+  ]
+}
