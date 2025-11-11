@@ -30,7 +30,10 @@ import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.metrics import classification_report, confusion_matrix, f1_score, accuracy_score
+from sklearn.metrics import (
+    classification_report, confusion_matrix, 
+    accuracy_score, precision_score, recall_score, f1_score
+)
 
 # Suppress warnings for cleaner output
 warnings.filterwarnings('ignore', category=UserWarning, module='sklearn')
@@ -172,15 +175,43 @@ def evaluate_model(model, model_name, X_test, y_test, feature_names, label_encod
     
     # 4. Calculate metrics for summary table
     accuracy = accuracy_score(y_test, y_pred)
-    f1_weighted = f1_score(y_test, y_pred, average='weighted', zero_division=0)
-    f1_macro = f1_score(y_test, y_pred, average='macro', zero_division=0)
     
-    return {
+    # Per-class metrics
+    precision_per_class = precision_score(y_test, y_pred, average=None, labels=label_encoder.classes_, zero_division=0)
+    recall_per_class = recall_score(y_test, y_pred, average=None, labels=label_encoder.classes_, zero_division=0)
+    f1_per_class = f1_score(y_test, y_pred, average=None, labels=label_encoder.classes_, zero_division=0)
+    
+    # Macro and weighted averages
+    precision_macro = precision_score(y_test, y_pred, average='macro', zero_division=0)
+    recall_macro = recall_score(y_test, y_pred, average='macro', zero_division=0)
+    f1_macro = f1_score(y_test, y_pred, average='macro', zero_division=0)
+    precision_weighted = precision_score(y_test, y_pred, average='weighted', zero_division=0)
+    recall_weighted = recall_score(y_test, y_pred, average='weighted', zero_division=0)
+    f1_weighted = f1_score(y_test, y_pred, average='weighted', zero_division=0)
+    
+    # Build result dictionary with per-class metrics
+    result = {
         "Model": model_name,
         "Accuracy": accuracy,
-        "F1 (Weighted)": f1_weighted,
-        "F1 (Macro)": f1_macro
     }
+    
+    # Add per-class metrics (4 classes: accidental, homicide, suicide, undetermined)
+    for i, class_name in enumerate(label_encoder.classes_):
+        result[f"{class_name.capitalize()}_Precision"] = precision_per_class[i]
+        result[f"{class_name.capitalize()}_Recall"] = recall_per_class[i]
+        result[f"{class_name.capitalize()}_F1"] = f1_per_class[i]
+    
+    # Add macro and weighted averages
+    result.update({
+        "Macro_Precision": precision_macro,
+        "Macro_Recall": recall_macro,
+        "Macro_F1": f1_macro,
+        "Weighted_Precision": precision_weighted,
+        "Weighted_Recall": recall_weighted,
+        "Weighted_F1": f1_weighted
+    })
+    
+    return result
 
 
 def main():
@@ -218,7 +249,7 @@ def main():
         return
         
     summary_df = pd.DataFrame(all_results)
-    summary_df = summary_df.sort_values(by="F1 (Macro)", ascending=False).reset_index(drop=True)
+    summary_df = summary_df.sort_values(by="Accuracy", ascending=False).reset_index(drop=True)
     
     print(summary_df.to_string())
     

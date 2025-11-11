@@ -42,13 +42,13 @@
 
 ### 最佳模型: XGBoost ⭐
 
-| Model | Accuracy | F1 (Weighted) | F1 (Macro) |
-|-------|----------|---------------|------------|
-| **XGBoost** | **73.9%** | **73.3%** | **40.1%** |
-| Random Forest | 69.8% | 71.3% | 40.0% |
-| Decision Tree (SMOTE) | 63.7% | 66.1% | 36.6% |
-| Decision Tree (Weighted) | 56.4% | 62.0% | 36.5% |
-| Decision Tree (Baseline) | 57.1% | 61.7% | 34.0% |
+| Model | Accuracy | Recall (Weighted) | F1 (Weighted) | F1 (Macro) |
+|-------|----------|-------------------|---------------|------------|
+| **XGBoost** | **73.9%** | **73.9%** | **73.3%** | **40.1%** |
+| Random Forest | 69.8% | 69.8% | 71.3% | 40.0% |
+| Decision Tree (SMOTE) | 63.7% | 63.7% | 66.1% | 36.6% |
+| Decision Tree (Baseline) | 57.1% | 57.1% | 61.7% | 34.0% |
+| Decision Tree (Weighted) | 56.4% | 56.4% | 62.0% | 36.5% |
 
 ### 关键发现 (Key Findings)
 
@@ -78,10 +78,11 @@ gun-shot-project/
 │   └── *.joblib                           # 训练好的模型
 │
 ├── performance/                            # 📊 评估结果 (重要！)
-│   ├── model_performance_summary.csv      # 性能对比表
-│   ├── confusion_matrix_xgboost.png       # 混淆矩阵
-│   ├── feature_importance_xgboost.png     # 特征重要性
-│   └── xgboost_model.png                  # 综合性能图
+│   ├── model_performance_summary.csv      # 5模型性能对比 (4核心指标)
+│   ├── XGBoost_classification_report.csv  # XGBoost详细报告 (per-class)
+│   ├── confusion_matrix_xgboost.png       # 混淆矩阵可视化
+│   ├── feature_importance_xgboost.png     # 特征重要性排序
+│   └── (其他模型的confusion matrix & feature importance)
 │
 ├── notebooks/
 │   └── 01_preprocessing.ipynb             # 数据预处理流程
@@ -166,11 +167,11 @@ python models/02_xgboost_model.py
 - Best Model: **XGBoost** (73.9% accuracy, 73.3% F1)
 - Improvement: **+16.8%** vs baseline Decision Tree
 
-**Per-Class Performance** (XGBoost):
-- ✅ Suicide: Precision ~78%, Recall ~80% → **优秀**
-- ✅ Homicide: Precision ~75%, Recall ~71% → **良好**
-- ⚠️ Accidental: Precision ~15%, Recall ~25% → **困难**
-- ⚠️ Undetermined: Precision ~8%, Recall ~15% → **困难**
+**Per-Class Performance** (XGBoost - 详见 `XGBoost_classification_report.csv`):
+- ✅ **Suicide**: Precision 75%, Recall 83%, F1 79% → **优秀**
+- ✅ **Homicide**: Precision 76%, Recall 68%, F1 72% → **良好**
+- ⚠️ **Accidental**: Precision 11%, Recall 6%, F1 7% → **困难** (样本仅241)
+- ⚠️ **Undetermined**: Precision 2%, Recall 2%, F1 2% → **极困难** (样本仅121)
 
 **Key Insights**:
 - 主要类别识别准确，少数类仍具挑战性
@@ -191,10 +192,10 @@ python models/02_xgboost_model.py
 - 解释模型决策逻辑
 - 指导特征选择
 
-**Performance Comparison** (`model_performance_summary.csv`):
-- 5个模型横向对比
-- 量化改进效果
-- 支持模型选择
+**Performance Tables** (CSV格式，可直接查看):
+- `model_performance_summary.csv`: 5模型对比 (Accuracy, Recall, F1-Weighted, F1-Macro)
+- `XGBoost_classification_report.csv`: XGBoost每个类别的详细指标 (Precision/Recall/F1)
+- 便于量化分析和模型选择
 
 ---
 
@@ -224,10 +225,10 @@ python models/02_xgboost_model.py
 - Evaluation script: `models/03_evaluate.py`
 
 **Results & Figures**:
-- 📊 Performance table: `performance/model_performance_summary.csv`
-- 📈 Confusion Matrix: `performance/confusion_matrix_xgboost.png`
-- 📉 Feature Importance: `performance/feature_importance_xgboost.png`
-- 🎯 Overall plot: `performance/xgboost_model.png`
+- 📊 **Models comparison**: `performance/model_performance_summary.csv` (4核心指标)
+- 📋 **Detailed report**: `performance/XGBoost_classification_report.csv` (per-class)
+- 📈 **Confusion Matrix**: `performance/confusion_matrix_xgboost.png`
+- 📉 **Feature Importance**: `performance/feature_importance_xgboost.png`
 
 **Technical Details**:
 - Configuration: `config.py`
@@ -251,12 +252,15 @@ XGBClassifier(
 )
 ```
 
-### Evaluation Metrics
+### Evaluation Metrics | 评估指标
 
-- **Accuracy**: 整体准确率 (简单但不够全面)
+Summary表中的4个核心指标 (`model_performance_summary.csv`):
+- **Accuracy**: 整体准确率
+- **Recall (Weighted)**: 加权召回率
 - **F1-Weighted**: 加权F1分数 (主要评估指标) ⭐
 - **F1-Macro**: 宏平均F1 (反映少数类表现)
-- **Confusion Matrix**: 各类别详细表现
+
+详细报告 (`XGBoost_classification_report.csv`): 每个类别的 Precision/Recall/F1/Support
 
 ---
 
