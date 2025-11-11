@@ -1,0 +1,9 @@
+修改了config.py
+
+新装环境，更新了requirements.txt
+pip install imbalanced-learn
+pip install xgboost
+
+训练A,B,C,D方案对应模型并评估，存在models/02_xxx.py文件中
+
+train和eval结果截图和csv存在performance文件中
