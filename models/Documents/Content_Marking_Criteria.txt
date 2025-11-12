@@ -1,0 +1,29 @@
+Content (70% of total 20% marks)
+Originality (4%): 
+* How many original elements are done in the project?
+* It’s not necessary that no other team has done your tasks before, but it needs to reflect your ability to think analytically.
+Relevance (4%): 
+* How strongly connected is the project to this course? 
+* Do you use core concepts of ML mentioned in the class?
+Related Work (4%): 
+* Do you present a sufficient and extensive study of related work to the task? Formal academic references, useful web articles and posts material, and other related work should be considered in this aspect. Remember to cite explicitly.
+* Do you articulate how your work is novel when compared to prior work?
+Technical Justification (10%): 
+* Is your technical approach suitable to try to solve your proposed problem? 
+* Is your technical approach valid for your prediction task and dataset? 
+* Are there technical flaws in the execution of the approach? 
+* Are evaluations performed with the appropriate metrics and correctly interpreted?
+Implementation (20%): 
+* Did you implement multiple models (baseline, and best)? 
+* Did you implement the models correctly? 
+* Did you tune them?
+Model Evaluation (18%): 
+* Do you address both macroscopic, dataset-wide level performance (e.g., RMSE, Accuracy, F1 measures) as well as microscopic, individual instance level performance (careful error analysis with diagnosis)?  
+* Do you demonstrate improvement in performance from one model to another? 
+A baseline model may be an implementation of a simpler model or version of your model, or referenced from other literature (make sure to give appropriate citations). 
+Note that your performance need not be very high (e.g., 90%) if your data problem is hard. But you should show improvement over some baseline approach. This includes conscientious efforts to improve performance.
+Results Interpretation (10%):
+* Error analysis: Explain, with evidence, why the model may be performing poorly (or not as good as you wish).  
+* Do you justify technically why your model is good or has improved?  I.e., rationalize your approach’s performance effectiveness. 
+* Future improvements: Discuss how you may further improve your model. 
+You do not have to implement or test all your ideas, if too infeasible. Though discussing them helps to show your grading staff that you have good and valid ideas.
